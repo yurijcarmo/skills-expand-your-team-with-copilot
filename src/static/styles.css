@@ -725,7 +725,7 @@ footer {
   font-size: 1rem;
 }
 
-/* Adjust user controls position when both are present */
+/* Adjust layout on small screens for dark mode toggle and user controls */
 @media (max-width: 600px) {
   #dark-mode-toggle {
     position: relative;
