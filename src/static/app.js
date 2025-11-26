@@ -528,6 +528,20 @@ document.addEventListener("DOMContentLoaded", () => {
         <span class="tooltip-text">Regular meetings at this time throughout the semester</span>
       </p>
       ${capacityIndicator}
+      <div class="social-share-buttons">
+        <button class="share-button share-twitter tooltip" data-activity="${name}" aria-label="Share on Twitter">
+          <span class="share-icon">🐦</span>
+          <span class="tooltip-text">Share on Twitter</span>
+        </button>
+        <button class="share-button share-facebook tooltip" data-activity="${name}" aria-label="Share on Facebook">
+          <span class="share-icon">📘</span>
+          <span class="tooltip-text">Share on Facebook</span>
+        </button>
+        <button class="share-button share-linkedin tooltip" data-activity="${name}" aria-label="Share on LinkedIn">
+          <span class="share-icon">💼</span>
+          <span class="tooltip-text">Share on LinkedIn</span>
+        </button>
+      </div>
       <div class="participants-list">
         <h5>Current Participants:</h5>
         <ul>
@@ -575,6 +589,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteButtons = activityCard.querySelectorAll(".delete-participant");
     deleteButtons.forEach((button) => {
       button.addEventListener("click", handleUnregister);
+    });
+
+    // Add click handlers for share buttons
+    const shareButtons = activityCard.querySelectorAll(".share-button");
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const activityName = e.currentTarget.dataset.activity;
+        const activity = allActivities[activityName];
+        if (activity) {
+          handleShare(e.currentTarget, activityName, activity);
+        }
+      });
     });
 
     // Add click handler for register button (only when authenticated)
@@ -809,6 +835,26 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       messageDiv.classList.add("hidden");
     }, 5000);
+  }
+
+  // Handle social sharing
+  function handleShare(button, activityName, activityDetails) {
+    const shareText = `Check out ${activityName} at Mergington High School! ${activityDetails.description}`;
+    const shareUrl = window.location.href;
+    
+    // Determine which platform to share to based on button class
+    if (button.classList.contains("share-twitter")) {
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(twitterUrl, '_blank', 'width=600,height=400');
+    } else if (button.classList.contains("share-facebook")) {
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}&quote=${encodeURIComponent(shareText)}`;
+      window.open(facebookUrl, '_blank', 'width=600,height=400');
+    } else if (button.classList.contains("share-linkedin")) {
+      const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+      window.open(linkedinUrl, '_blank', 'width=600,height=400');
+    }
+    
+    showMessage(`Sharing ${activityName}!`, "info");
   }
 
   // Handle form submission
