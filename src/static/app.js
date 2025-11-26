@@ -2,40 +2,44 @@ document.addEventListener("DOMContentLoaded", () => {
   // Dark mode toggle functionality
   const darkModeToggle = document.getElementById("dark-mode-toggle");
   const modeText = document.getElementById("mode-text");
-  const modeIcon = darkModeToggle.querySelector(".icon");
+  
+  // Only initialize dark mode if the toggle button exists
+  if (darkModeToggle && modeText) {
+    const modeIcon = darkModeToggle.querySelector(".icon");
 
-  // Check for saved dark mode preference
-  function initializeDarkMode() {
-    const isDarkMode = localStorage.getItem("darkMode") === "true";
-    if (isDarkMode) {
-      document.body.classList.add("dark-mode");
-      updateDarkModeButton(true);
+    // Check for saved dark mode preference
+    function initializeDarkMode() {
+      const isDarkMode = localStorage.getItem("darkMode") === "true";
+      if (isDarkMode) {
+        document.body.classList.add("dark-mode");
+        updateDarkModeButton(true);
+      }
     }
-  }
 
-  // Update button appearance based on mode
-  function updateDarkModeButton(isDark) {
-    if (isDark) {
-      modeIcon.textContent = "☀️";
-      modeText.textContent = "Light Mode";
-    } else {
-      modeIcon.textContent = "🌙";
-      modeText.textContent = "Dark Mode";
+    // Update button appearance based on mode
+    function updateDarkModeButton(isDark) {
+      if (isDark) {
+        modeIcon.textContent = "☀️";
+        modeText.textContent = "Light Mode";
+      } else {
+        modeIcon.textContent = "🌙";
+        modeText.textContent = "Dark Mode";
+      }
     }
+
+    // Toggle dark mode
+    function toggleDarkMode() {
+      const isDarkMode = document.body.classList.toggle("dark-mode");
+      localStorage.setItem("darkMode", isDarkMode);
+      updateDarkModeButton(isDarkMode);
+    }
+
+    // Add event listener to toggle button
+    darkModeToggle.addEventListener("click", toggleDarkMode);
+
+    // Initialize dark mode on page load
+    initializeDarkMode();
   }
-
-  // Toggle dark mode
-  function toggleDarkMode() {
-    const isDarkMode = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("darkMode", isDarkMode);
-    updateDarkModeButton(isDarkMode);
-  }
-
-  // Add event listener to toggle button
-  darkModeToggle.addEventListener("click", toggleDarkMode);
-
-  // Initialize dark mode on page load
-  initializeDarkMode();
 
   // DOM elements
   const activitiesList = document.getElementById("activities-list");
