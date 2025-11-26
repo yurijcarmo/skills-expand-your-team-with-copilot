@@ -519,10 +519,6 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    // Create share message
-    const shareText = `Check out ${name} at Mergington High School! ${details.description}`;
-    const shareUrl = window.location.href;
-
     activityCard.innerHTML = `
       ${tagHtml}
       <h4>${name}</h4>
